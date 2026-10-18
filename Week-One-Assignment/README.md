@@ -6,7 +6,7 @@
 
 ### SECTION ONE
 #### 1. What is Artificial Intelligence
-Artificial intelligence is a type of technology designed which can be used to analyze data and perform tasks that require minimal aspects of human intelligence.
+Artificial intelligence is a type of technology which can be used to analyze data and perform tasks that require minimal aspects of human intelligence.
 
 #### 2. What is the difference between regular automation and AI automation?
 Regular automation works best for tasks that are linear and predictable. These tasks uses a predefined logic and usually consistent. They are very easy to validate.
