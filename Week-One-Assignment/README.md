@@ -34,6 +34,7 @@ Manual data entry of responses during interviews. A voice functionality with AI 
 
 ### SECTION THREE
 #### 8. What is n8n, and what does it do?
+n8n is an open-source workflow automation tool. It allow connection to different apps and services and make them work together automatically, without writing a full application from scratch
 
 #### 9. Name TWO reasons n8n is a better choice than a tool like Zapier for serious automation work.
 1. n8n is a an open source automation tool which is free for use
