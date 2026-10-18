@@ -43,7 +43,12 @@ n8n is an open-source workflow automation tool. It allows connection to differen
 ### SECTION FOUR
 #### 10. Define these three terms in your own words: Trigger, Action, Condition.
 
+1. Trigger: This is an event that starts a workflow.
+2. Action: This is a task or group of tasks carried out by automation as a result of a trigger event
+3. Condition: These are predefined rules set in a workflow to accomplish a desired objective.
+
 #### 11. Using the contact form example from class, write out the full workflow step by step.
 
 ### SECTION FIVE
 #### 12. What is the ONE thing from tonight's class that surprised you, excited you, or changed the way you think?
+This course has definitely been an eyeopener. I did not really understand what AI automation was really about. Sometimes, when i recieve mails, i am being told not to reply to that mail as it has been automatically generated. I did not really know that the message was part of a predefined workflow as a result of a previous action from my end. I just cant wait to dive into the n8n class so i can begin to practice and test some ideas. 
