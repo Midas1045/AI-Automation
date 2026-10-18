@@ -13,7 +13,8 @@ Regular automation works best for tasks that are linear and predictable. These t
 AI automation are used for tasks that can interprete languages, classifying information and generating responses. 
 
 #### 3. Give one example — from your own life or work — where AI could help you right now. Hint: Think about a task you do manually that requires reading, writing, or making a decision. Could AI handle it?
-M
+I can use AI to scan social media platforms and job boards for relevant openings, matching them against the information already stored in my CV
+This can be  achieved by automatically searching social media and job advertisements for suitable vacancies, filtering them based on the skills, experience, and qualifications. 
 
 #### 4. In your own words — what is automation? Hint: Pretend you are explaining it to someone who has never heard the word before. Keep it simple and clear.
 Automation can be seen as carrying out repetitive tasks normally done by humans now handled by a dedicated technology or software requiring minimal human intervention to accomplish an objective or an intended goal.
