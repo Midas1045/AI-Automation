@@ -10,7 +10,8 @@ Artificial intelligence is a type of technology which can be used to analyze dat
 
 #### 2. What is the difference between regular automation and AI automation?
 Regular automation works best for tasks that are linear and predictable. These tasks uses a predefined logic and usually consistent. They are very easy to validate.
-AI automation are used for tasks that can interprete languages, classifying information and generating responses. 
+
+AI automation on the other hand are used for tasks that can interprete languages, classifying information and generating responses. 
 
 #### 3. Give one example — from your own life or work — where AI could help you right now. Hint: Think about a task you do manually that requires reading, writing, or making a decision. Could AI handle it?
 I can use AI to scan social media platforms and job boards for relevant openings, matching them against the information already stored in my CV.
