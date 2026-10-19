@@ -50,6 +50,10 @@ n8n is an open-source workflow automation tool. It allows connection to differen
 3. Condition: These are predefined rules set in a workflow to accomplish a desired objective.
 
 #### 11. Using the contact form example from class, write out the full workflow step by step.
+1. Form filling and submission: The user fills in their name, email, and message and clicks Submit. The form sends the data to the system (a webhook in n8n).
+2. Validation of data fields: The system checks that every field is filled in and that the email format is valid. If anything is wrong, it returns an error and asks the        user to correct it.
+3. Updating the database: Once the data is valid, the system saves it as a new record (for example, a row in Google Sheets or a database table).
+4. Sending out confirmation mails: The system emails the user to confirm their submission was received. It can also notify the admin
 
 ### SECTION FIVE
 #### 12. What is the ONE thing from tonight's class that surprised you, excited you, or changed the way you think?
