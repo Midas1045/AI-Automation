@@ -36,7 +36,7 @@ Manual data entry of responses during interviews. A voice functionality with AI 
 
 ### SECTION THREE
 #### 8. What is n8n, and what does it do?
-n8n is an open-source workflow automation tool. It allows connection to different apps and services and make them work together automatically, without writing a full application from scratch
+n8n is an open-source workflow automation tool. It allows connection to different apps and services and make them work together automatically, without writing a full application from scratch.
 
 #### 9. Name TWO reasons n8n is a better choice than a tool like Zapier for serious automation work.
 1. n8n is a an open source automation tool which is free for use.
@@ -46,14 +46,14 @@ n8n is an open-source workflow automation tool. It allows connection to differen
 #### 10. Define these three terms in your own words: Trigger, Action, Condition.
 
 1. Trigger: This is an event that starts a workflow.
-2. Action: This is a task or group of tasks carried out by automation as a result of a trigger event
+2. Action: This is a task or group of tasks carried out by automation as a result of a trigger event.
 3. Condition: These are predefined rules set in a workflow to accomplish a desired objective.
 
 #### 11. Using the contact form example from class, write out the full workflow step by step.
 1. Form filling and submission: The user fills in their name, email, and message and clicks Submit. The form sends the data to the system (a webhook in n8n).
 2. Validation of data fields: The system checks that every field is filled in and that the email format is valid. If anything is wrong, it returns an error and asks the        user to correct it.
 3. Updating the database: Once the data is valid, the system saves it as a new record (for example, a row in Google Sheets or a database table).
-4. Sending out confirmation mails: The system emails the user to confirm their submission was received. It can also notify the admin
+4. Sending out confirmation mails: The system emails the user to confirm their submission was received. It can also notify the admin.
 
 ### SECTION FIVE
 #### 12. What is the ONE thing from tonight's class that surprised you, excited you, or changed the way you think?
