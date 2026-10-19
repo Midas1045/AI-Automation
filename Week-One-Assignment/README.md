@@ -2,7 +2,7 @@
 
 ## Name- Obinna Clinton Emmanuel
 ## Email- obinnaclinton85@gmail.com
-## Date: 
+## Date: 19th October, 2026
 
 ### SECTION ONE
 #### 1. What is Artificial Intelligence
