@@ -5,7 +5,7 @@ An automated student onboarding system solves this by connecting the registratio
 
 This design shows how that process works, from the trigger to the final outcome, so the academy can onboard students faster, more accurately, and with less manual effort.
 
-<p align="center"><img width="7600" height="3600" alt="Automation Workflow" src="https://github.com/user-attachments/assets/0b59b356-ee85-4d29-929e-b4129e0cd842" />
+<p align="center"><img width="7201" height="3601" alt="Untitled Diagram12" src="https://github.com/user-attachments/assets/0981546d-13b8-45b1-8c40-0f11191d8d1d" />
 
 ## System/Workflow Explanation
 
