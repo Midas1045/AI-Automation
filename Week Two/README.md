@@ -59,6 +59,14 @@ Tested it and confirmed all 3 emails were sent.
 Switched the workflow to Active so it runs on its own at 8 AM and 8 PM. The first scheduled run fired successfully.
 Key expressions
 
+#### Results
+
+<p align="center"><img width="1430" height="640" alt="image" src="https://github.com/user-attachments/assets/5fd4f6f4-3924-4c0d-9f17-21e89793a00d" />
+
+<p align="center"><img width="1848" height="810" alt="image" src="https://github.com/user-attachments/assets/7dd3ccc7-ba5f-4ccc-a53a-83a6d1edc642" />
+ 
+
+
 #### What I learned
 * How n8n passes items between nodes, and how one item becomes many.
 * Using expressions to switch the AI prompt and the email wording by time of day.
