@@ -1,10 +1,11 @@
 ## Daily Motivational Quote Emailer (n8n + Gemini + Gmail)
 
 An automated n8n workflow that generates an original motivational quote with AI and emails it to a list of recipients every day at 8:00 AM and 8:00 PM (Africa/Lagos time).
-
 The morning quote is energizing and action-focused. The evening quote is calm and reflective.
 
 Workflow screenshot
+<p align="center"><img width="1224" height="521" alt="image" src="https://github.com/user-attachments/assets/40d26573-46e8-46a8-8c75-4631f4584feb" />
+
 
 ### How it works
 Schedule Trigger -> AI Agent (Gemini) -> Get row(s) in Google Sheets -> Gmail
