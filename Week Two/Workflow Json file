@@ -1,0 +1,173 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 8
+            },
+            {
+              "triggerAtHour": 20
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -272,
+        0
+      ],
+      "id": "d69e346e-947c-4415-90ab-bd4e6f2315ee",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Write ONE original motivational quote of 25 words or fewer for the start of the day. Make it energizing and action-focused. Do not copy a famous quote. No quotation marks. Return only the quote text.",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        16,
+        0
+      ],
+      "id": "de87bc7a-992e-48f7-a1fb-11f5d7421bf9",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.2,
+      "position": [
+        16,
+        176
+      ],
+      "id": "9eb7b407-295d-4a44-b722-872b38f64d48",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": null,
+          "name": "",
+          "__aiGatewayManaged": true
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "15k4GtQ3K1QwBWU96W9NdVCF4yQkAkKp8SukLGneWxE0",
+          "mode": "list",
+          "cachedResultName": "Email list",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15k4GtQ3K1QwBWU96W9NdVCF4yQkAkKp8SukLGneWxE0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15k4GtQ3K1QwBWU96W9NdVCF4yQkAkKp8SukLGneWxE0/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": []
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        448,
+        0
+      ],
+      "id": "2a1db571-69a5-47e5-b5ce-aa620ba60201",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "rCGwCllE1WiqCrbl",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json['Email List '] }}",
+        "subject": "Your Daily Dose of Morning Motivation",
+        "message": "=<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"background-color:#f4f1ea;\">   <tr>     <td align=\"center\" style=\"padding:24px 12px;\">       <table width=\"560\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"max-width:100%;\">          <!-- HEADER BLOCK -->         <tr>           <td align=\"center\" style=\"background-color:#163b33;padding:36px 24px;\">             <div style=\"font-family:Arial,Helvetica,sans-serif;font-size:13px;letter-spacing:3px;color:#d8c88a;text-transform:uppercase;\">               Your {{ $now.hour < 12 ? 'Morning' : 'Evening' }} Inspiration             </div>             <div style=\"font-family:Arial,Helvetica,sans-serif;font-size:30px;line-height:38px;font-weight:bold;color:#ffffff;margin-top:14px;\">               {{ $now.hour < 12 ? 'Start the Day Strong' : 'Finish the Day Well' }}             </div>             <div style=\"font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:24px;color:#e6efe9;margin-top:14px;\">               One quote. One moment. Make it count.             </div>           </td>         </tr>          <!-- BODY -->         <tr>           <td style=\"background-color:#ffffff;padding:28px 24px;font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:26px;color:#333333;\">             <p style=\"margin:0 0 16px 0;\">Good {{ $now.hour < 12 ? 'morning' : 'evening' }},</p>             <p style=\"margin:0 0 16px 0;font-size:18px;line-height:28px;font-style:italic;color:#163b33;\">               {{ $('AI Agent').item.json.output }}             </p>             <p style=\"margin:0;\">Wishing you a great {{ $now.hour < 12 ? 'day' : 'night' }}.</p>           </td>         </tr>        </table>     </td>   </tr> </table>",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        736,
+        0
+      ],
+      "id": "362f98bf-65c1-4823-8282-47f915815bde",
+      "name": "Send a message",
+      "webhookId": "e949d1b9-9f5c-40f1-8d19-9bd8cdaa10c3",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "aKzzy90q8VkS598d",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "7313146df821e606d4c0776548c57e230c096ca25c0d71441cb542da0ce81cf5"
+  }
+}
