@@ -3,7 +3,9 @@
 An automated n8n workflow that generates an original motivational quote with AI and emails it to a list of recipients every day at 8:00 AM and 8:00 PM (Africa/Lagos time).
 The morning quote is energizing and action-focused. The evening quote is calm and reflective.
 
-Workflow screenshot
+### Workflow screenshot
+<p align="center"><img width="1164" height="354" alt="Screenshot 2026-10-27 031250" src="https://github.com/user-attachments/assets/8e50dbc1-2349-47cb-83d3-7f316a8ab70d" />
+
 <p align="center"><img width="1224" height="521" alt="image" src="https://github.com/user-attachments/assets/40d26573-46e8-46a8-8c75-4631f4584feb" />
 
 
