@@ -4,6 +4,7 @@ An automated n8n workflow that reads the latest Nigerian headlines, uses AI to w
 
 
 
+
 ### How it works
 
 ```
@@ -14,6 +15,8 @@ Schedule Trigger -> Daily Post RSS Read -> Aggregate -> AI Agent -> Edit Fields
                                                                        '-> Code (build HTML) -> Email List (Google Sheets) -> Gmail
                                                                               1 item                3 items                    3 emails
 ```
+<img width="1607" height="517" alt="image" src="https://github.com/user-attachments/assets/66e33f18-33df-4ef2-92af-af0758610c78" />
+
 
 1. **Schedule Trigger** runs the workflow at 8:00 AM and 8:00 PM using two rules.
 2. **Daily Post RSS Read** pulls the latest stories from the Daily Post Nigeria hot-news RSS feed (20 items).
@@ -58,6 +61,9 @@ Schedule Trigger -> Daily Post RSS Read -> Aggregate -> AI Agent -> Edit Fields
 This turns the aggregated list into plain text, one story per line, for the model to read.
 
 **Greeting that follows the time of day:**
+
+<img width="1459" height="518" alt="image" src="https://github.com/user-attachments/assets/09635aa6-3f3b-4767-981b-7c7a117bb590" />
+
 
 ```
 {{ $now.hour < 12 ? 'Good morning!' : ($now.hour < 17 ? 'Good afternoon!' : 'Good evening!') }}
