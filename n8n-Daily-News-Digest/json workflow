@@ -1,0 +1,325 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1b6b0c21-ce10-4466-a1d7-0686f71994ed",
+              "name": "data",
+              "value": "={{ $json.output }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        256,
+        -304
+      ],
+      "id": "bf98a384-f807-4b3d-a272-648ae26c4706",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are a news editor writing a short daily briefing for Nigerian readers, to be sent as a Telegram message.\n\nHere are today's top stories (title | link | snippet):\n\n{{ $json.data.slice(0, 12).map(i => '- ' + i.title + ' | ' + i.link + ' | ' + i.contentSnippet).join('\\n') }}\n\nTASK\nWrite a briefing of the 8 most important stories from the list above.\n\nRULES\n- Use ONLY the information provided above. Do not add facts, names, numbers, or details that are not in the text.\n- Summarize each story in 1 to 2 plain sentences, in your own words. Do not copy sentences from the snippets.\n- Keep the tone neutral and factual, with no opinions.\n- If a snippet is too short to summarize accurately, use the title only.\n- If no stories are listed above, reply only with: No stories available right now.\n- Replace the \"&\" symbol with the word \"and\", and do not use the < or > symbols in your text.\n- Keep the whole message under 3,500 characters.\n\nOUTPUT FORMAT (Telegram HTML)\n- Line 1: {{ $now.hour < 12 ? 'Good morning!' : ($now.hour < 17 ? 'Good afternoon!' : 'Good evening!') }}\n- Line 2: Here's today's news\n- Line 3: the main themes of the day inside <b></b> tags, written like this example: <b>Top stories: elections, security, economy and public health</b>\n  Use 2 to 4 short topic words taken only from the stories you summarize below, separated by commas, with \"and\" before the last one.\n- Leave a blank line.\n- Then, for each story, one block like this:\n• <b>Short headline</b>: your 1 to 2 sentence summary. <a href=\"LINK\">Read more</a>\n- Leave a blank line between stories.\n- Use no HTML tags other than <b> and <a>. No markdown, no code fences, no lists with <ul> or <li>.",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -80,
+        -192
+      ],
+      "id": "1bf0d664-6f01-4b61-b235-855453f89400",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-5-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        -80,
+        -48
+      ],
+      "id": "ab5fbea2-0432-4a92-a122-93ace5e6c65b",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": null,
+          "name": "",
+          "__aiGatewayManaged": true
+        }
+      }
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        -304,
+        -192
+      ],
+      "id": "eec77112-4b71-47d7-85f1-25cec0609fa3",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "jsCode": "const raw = $input.first().json.data || '';\nconst text = raw.replace(/\\\\n/g, '\\n');\nconst parts = text.split(/\\n\\s*\\n/).map(p => p.trim()).filter(Boolean);\n\nconst head = (parts[0] || '').split('\\n').map(l => l.trim());\nconst greeting = head[0] || 'Hello!';\nconst subline = head[1] || \"Here's today's news\";\nconst themes = (head[2] || '').replace(/<\\/?b>/g, '');\n\nconst stories = parts.slice(1).filter(p => p.startsWith('•'));\nconst linkStyle = 'color:#0b6e8a;font-weight:bold;text-decoration:none;';\n\nlet cards = stories.map(s => {\n  const body = s.replace(/^•\\s*/, '').replace('<a href=', `<a style=\"${linkStyle}\" href=`);\n  return `<tr><td style=\"padding:0 0 14px 0;\">\n    <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"background-color:#ffffff;border-left:4px solid #d8c88a;\">\n      <tr><td style=\"padding:16px 18px;font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:24px;color:#333333;\">${body}</td></tr>\n    </table></td></tr>`;\n}).join('');\n\nif (!cards) {\n  cards = `<tr><td style=\"background-color:#ffffff;padding:18px;font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:24px;color:#333333;\">${text.replace(/\\n/g, '<br>')}</td></tr>`;\n}\n\nconst html = `\n<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"background-color:#eef2f5;\">\n <tr><td align=\"center\" style=\"padding:24px 12px;\">\n  <table width=\"600\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"max-width:100%;\">\n   <tr><td align=\"center\" style=\"background-color:#0b2e3c;padding:36px 24px;\">\n     <div style=\"font-family:Arial,Helvetica,sans-serif;font-size:13px;letter-spacing:3px;color:#d8c88a;text-transform:uppercase;\">Daily News Briefing</div>\n     <div style=\"font-family:Arial,Helvetica,sans-serif;font-size:30px;line-height:38px;font-weight:bold;color:#ffffff;margin-top:14px;\">${greeting}</div>\n     <div style=\"font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:24px;color:#dce8ee;margin-top:8px;\">${subline}</div>\n     <div style=\"font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:22px;color:#d8c88a;margin-top:16px;\">${themes}</div>\n   </td></tr>\n   <tr><td style=\"padding:20px 0 0 0;\"><table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\">${cards}</table></td></tr>\n   <tr><td align=\"center\" style=\"padding:8px 12px 0 12px;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:18px;color:#7a8790;\">\n     Summaries are written by AI from Daily Post Nigeria headlines. Tap Read more for the full story.\n   </td></tr>\n  </table>\n </td></tr>\n</table>`;\n\nreturn [{ json: { html } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        272,
+        -96
+      ],
+      "id": "abc8db4a-9a33-4eec-a008-47d77ddfab45",
+      "name": "Javascript code for Header Block"
+    },
+    {
+      "parameters": {
+        "chatId": "=YOUR_CHAT_ID",
+        "text": "={{ $json.data }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        544,
+        -304
+      ],
+      "id": "7df9422a-a505-40cb-afc3-cc930416f59b",
+      "name": "Telegram Message",
+      "webhookId": "f1ba2e68-ecee-4645-a84e-8542f94a114e",
+      "credentials": {
+        "telegramApi": {
+          "id": "YOUR_CREDENTIAL_ID_FOR_TELEGRAM",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json['Email List '] }}",
+        "subject": "BITE SIZE NEWS UPDATES",
+        "message": "={{ $('Javascript code for Header Block').item.json.html }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        704,
+        -96
+      ],
+      "id": "a839d078-001c-40fa-b871-d073c9d45be8",
+      "name": "Gmail message",
+      "webhookId": "f90b7680-1567-44a3-9da2-00ed3461708f",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "YOUR_CREDENTIAL_ID_FOR_GMAIL",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Email list",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        496,
+        -96
+      ],
+      "id": "4c957ab0-8a77-4174-a7b5-341bb239528d",
+      "name": "Email List",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "YOUR_CREDENTIAL_ID_FOR_GOOGLE_SHEETS",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://dailypost.ng/hot-news/feed/",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [
+        -544,
+        -192
+      ],
+      "id": "cdd47ac0-7699-46de-b1c9-0ddfae24d62e",
+      "name": "Daily Post RSS Read"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 8
+            },
+            {
+              "triggerAtHour": 20
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -784,
+        -192
+      ],
+      "id": "c0e258c9-5257-4a5b-8ec5-76bdb1b051bc",
+      "name": "8.am/8.pm Schedule Trigger"
+    }
+  ],
+  "connections": {
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Telegram Message",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Javascript code for Header Block",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Javascript code for Header Block": {
+      "main": [
+        [
+          {
+            "node": "Email List",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram Message": {
+      "main": [
+        []
+      ]
+    },
+    "Gmail message": {
+      "main": [
+        []
+      ]
+    },
+    "Email List": {
+      "main": [
+        [
+          {
+            "node": "Gmail message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Daily Post RSS Read": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "8.am/8.pm Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Daily Post RSS Read",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "YOUR_INSTANCE_ID"
+  }
+}
