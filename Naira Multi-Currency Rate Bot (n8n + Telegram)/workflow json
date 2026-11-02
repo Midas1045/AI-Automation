@@ -1,1 +1,140 @@
-
+{
+  "nodes": [
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e4f0fd1b-3eb2-43e0-9689-22c5519d9150",
+              "name": "rates",
+              "value": "={{ $json.rates }}",
+              "type": "object"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        112,
+        0
+      ],
+      "id": "b410f74a-e9e9-40f5-b5db-96f66bd8533b",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 8
+            },
+            {
+              "triggerAtHour": 12
+            },
+            {
+              "triggerAtHour": 16
+            },
+            {
+              "triggerAtHour": 20
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -384,
+        0
+      ],
+      "id": "d9fe93c0-b897-493c-80ce-c503a27b68f0",
+      "name": "8/12/4/8 Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "chatId": "YOUR_CHAT_ID",
+        "text": "=<b>Daily Exchange Rate Update</b>\n\nDear Client,\n\nPlease find today's indicative rates against the Nigerian naira:\n\n{{ (() => {\n  const r = $json.rates;\n  const names = {\n    USD: '🇺🇸 US Dollar', EUR: '🇪🇺 Euro', GBP: '🇬🇧 British Pound',\n    JPY: '🇯🇵 Japanese Yen', CNY: '🇨🇳 Chinese Yuan', AUD: '🇦🇺 Australian Dollar',\n    CAD: '🇨🇦 Canadian Dollar', CHF: '🇨🇭 Swiss Franc', HKD: '🇭🇰 Hong Kong Dollar',\n    SGD: '🇸🇬 Singapore Dollar', SEK: '🇸🇪 Swedish Krona', KRW: '🇰🇷 South Korean Won',\n    NOK: '🇳🇴 Norwegian Krone', NZD: '🇳🇿 New Zealand Dollar', INR: '🇮🇳 Indian Rupee'\n  };\n  return Object.keys(names).map(c =>\n    names[c] + ' (' + c + '): ₦' +\n    (r.NGN / r[c]).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })\n  ).join('\\n');\n})() }}\n\nDate: {{ $now.toFormat('dd LLL yyyy') }}\nSource: ExchangeRate-API\n\nRates are indicative and may vary at the time of transaction. \n\nHAPPY TRADING\n\n",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        352,
+        0
+      ],
+      "id": "ea998f43-a733-49e6-b542-9544b5165b10",
+      "name": "Client Inbox",
+      "webhookId": "fa7769b5-099e-4e7b-bb70-6b5d05682318",
+      "credentials": {
+        "telegramApi": {
+          "id": "YOUR_CREDENTIAL_ID",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://open.er-api.com/v6/latest/USD",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        -112,
+        0
+      ],
+      "id": "5948b987-f407-49a3-9bca-31508a4b490c",
+      "name": "FX RATE API"
+    }
+  ],
+  "connections": {
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Client Inbox",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "8/12/4/8 Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "FX RATE API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Client Inbox": {
+      "main": [
+        []
+      ]
+    },
+    "FX RATE API": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "YOUR_INSTANCE_ID"
+  }
+}
