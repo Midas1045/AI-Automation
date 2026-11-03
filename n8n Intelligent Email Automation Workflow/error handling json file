@@ -1,1 +1,318 @@
-
+{
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1fxNbUABIs_ob4aTyCHsBD2xwVx0sekYUM7Rk_g5-9IQ",
+          "mode": "list",
+          "cachedResultName": "ERROR LOGS",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1fxNbUABIs_ob4aTyCHsBD2xwVx0sekYUM7Rk_g5-9IQ/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1fxNbUABIs_ob4aTyCHsBD2xwVx0sekYUM7Rk_g5-9IQ/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "date": "={{ $json.date }}",
+            "time": "={{ $json.time }}",
+            "work_flow name": "={{ $json.workflow.name }}",
+            "execution_mode": "={{ $json.execution.mode }}",
+            "retry_of": "={{ $json.execution.retryOf }}",
+            "error_message": "={{ $json.execution.error.message }}",
+            "workflow_id": "={{ $json.workflow.id }}",
+            "execution_id": "={{ $json.execution.id }}",
+            "execution_url": "={{ $json.execution.url }}",
+            "failed_node": "={{ $json.execution.lastNodeExecuted }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "date",
+              "displayName": "date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "time",
+              "displayName": "time",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "work_flow name",
+              "displayName": "work_flow name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "workflow_id",
+              "displayName": "workflow_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "failed_node",
+              "displayName": "failed_node",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "error_message",
+              "displayName": "error_message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "execution_id",
+              "displayName": "execution_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "execution_url",
+              "displayName": "execution_url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "execution_mode",
+              "displayName": "execution_mode",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "retry_of",
+              "displayName": "retry_of",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        192,
+        0
+      ],
+      "id": "4ac5156b-2597-4fcf-b737-4a090f06672b",
+      "name": "ERROR LOGS",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "GOOGLE_SHEETS_CREDENTIAL_ID",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "TELEGRAM_CHAT_ID",
+        "text": "=🚨 *n8n WORKFLOW ERROR ALERT*\n\n⚠️ A workflow execution has failed.\n\n📋 *ERROR DETAILS*\n\n• Workflow: {{ $json['work_flow name'] }}\n• Workflow ID: {{ $json.workflow_id }}\n• Failed Node: {{ $json.failed_node }}\n• Execution Mode: {{ $json.execution_mode }}\n\n🕒 *TIMESTAMP*\n\n• Date: {{ $json.date }}\n• Time: {{ $json.time }}\n\n🔍 *ERROR INFORMATION*\n\n{{ $json.error_message }}\n\n📌 *EXECUTION DETAILS*\n\n• Execution ID: {{ $json.execution_id }}\n• Retry Of: {{ $json.retry_of }}\n\n🔗 *View Failed Execution:*\n{{ $json.execution_url }}\n\n🛠️ *ACTION REQUIRED*\nPlease investigate the failed node, identify the cause and resolve the issue.",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        480,
+        0
+      ],
+      "id": "a62a6e8c-dc3c-445b-aa80-0a8e384714cf",
+      "name": "NOTIFY  HUMAN AGENT",
+      "webhookId": "48973c6e-0011-4fb2-beed-0a33d9782442",
+      "credentials": {
+        "telegramApi": {
+          "id": "TELEGRAM_CREDENTIAL_ID",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        -304,
+        0
+      ],
+      "id": "d1a98976-e3f1-4c90-be28-2b0e4b7a4c7f",
+      "name": "ERROR TRIGGER",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "96578521-3497-4206-b43f-9298208ffcea",
+              "name": "execution.error.message",
+              "value": "={{ $json.execution.error.message }}",
+              "type": "string"
+            },
+            {
+              "id": "c1c26afc-e57b-44aa-8051-1f1bcf384fd4",
+              "name": "execution.lastNodeExecuted",
+              "value": "={{ $json.execution.lastNodeExecuted }}",
+              "type": "string"
+            },
+            {
+              "id": "0b30df9b-0c87-4d27-91ad-2aea2fc65544",
+              "name": "execution.mode",
+              "value": "={{ $json.execution.mode }}",
+              "type": "string"
+            },
+            {
+              "id": "7408999f-a76c-4a0b-82a1-3c5817e59080",
+              "name": "execution.retryOf",
+              "value": "={{ $json.execution.retryOf }}",
+              "type": "string"
+            },
+            {
+              "id": "a168aa5d-731b-40f0-9e88-fb9bf31412a9",
+              "name": "execution.url",
+              "value": "={{ $json.execution.url }}",
+              "type": "string"
+            },
+            {
+              "id": "cb73bc80-682f-4db7-85eb-34e05da3d209",
+              "name": "workflow.name",
+              "value": "={{ $json.workflow.name }}",
+              "type": "string"
+            },
+            {
+              "id": "863f0a06-7b86-4e96-a12b-0a601d8569a1",
+              "name": "workflow.id",
+              "value": "={{ $json.workflow.id }}",
+              "type": "string"
+            },
+            {
+              "id": "0d9337bf-9287-45d8-abd0-6c7ce77073e0",
+              "name": "execution.id",
+              "value": "={{ $json.execution.id }}",
+              "type": "number"
+            },
+            {
+              "id": "4dea11bf-11df-4899-b3ee-9667df4f57bf",
+              "name": "time",
+              "value": "={{ $now.toFormat('hh:mm:ss a') }}",
+              "type": "string"
+            },
+            {
+              "id": "9c1d2b49-4a20-4773-bad9-214c116368a4",
+              "name": "date",
+              "value": "={{ $now.toFormat('dd/MM/yyyy') }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        -80,
+        0
+      ],
+      "id": "3d0e7b33-cccf-4de3-8c9f-d1aeddeda909",
+      "name": "ERROR FIELD MAPPING SCHEMA"
+    }
+  ],
+  "connections": {
+    "ERROR LOGS": {
+      "main": [
+        [
+          {
+            "node": "NOTIFY  HUMAN AGENT",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "NOTIFY  HUMAN AGENT": {
+      "main": [
+        []
+      ]
+    },
+    "ERROR TRIGGER": {
+      "main": [
+        [
+          {
+            "node": "ERROR FIELD MAPPING SCHEMA",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ERROR FIELD MAPPING SCHEMA": {
+      "main": [
+        [
+          {
+            "node": "ERROR LOGS",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "YOUR_INSTANCE_ID"
+  }
+}
