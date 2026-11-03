@@ -170,7 +170,13 @@ I tested the workflow with sample emails. Each one landed where expected: classi
 5. Edit the system prompt with your name and company (see `system-prompt.md`).
 6. Switch the workflow to **Active**.
 
-#### 11. What I learned
+#### 11. Results
+<img width="1414" height="206" alt="image" src="https://github.com/user-attachments/assets/e34eb10f-9e85-40aa-9440-12749a82987a" />
+
+<img width="1152" height="916" alt="image" src="https://github.com/user-attachments/assets/62bb6c33-ae68-42e7-bfc4-41ac4e1e5ebf" />
+
+
+#### 12. What I learned
 
 - Gmail's label operations need label IDs, which differ from the names in the Gmail sidebar.
 - After a Gmail node runs, `$json` holds that node's output, so earlier data has to be read by naming the node.
