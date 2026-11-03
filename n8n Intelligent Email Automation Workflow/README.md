@@ -4,6 +4,7 @@ An n8n workflow that watches a Gmail inbox, uses AI to read each incoming email,
 
 #### Workflow screenshot
 
+<img width="1711" height="567" alt="image" src="https://github.com/user-attachments/assets/fa847b6a-afb1-4e99-ad43-08d5b7e4022e" />
 
 
 #### 1. Objectives
