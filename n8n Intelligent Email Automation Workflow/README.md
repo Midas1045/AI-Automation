@@ -179,10 +179,8 @@ I tested the workflow with sample emails. Each one landed where expected: classi
 #### 12. What I learned
 
 - Gmail's label operations need label IDs, which differ from the names in the Gmail sidebar.
-- After a Gmail node runs, `$json` holds that node's output, so earlier data has to be read by naming the node.
 - A Structured Output Parser with enums keeps the AI to valid categories, which makes Switch routing reliable.
 - Merging branches lets one Sheets node serve every category.
-- Treating email text as data helps protect against prompt injection.
 - Saving drafts, not sending, keeps a person in control.
 
 #### 12. Notes
